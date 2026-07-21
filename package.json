@@ -1,7 +1,7 @@
 {
-  "name": "lina",
+  "name": "yetka-lina",
   "version": "v4.0.0",
-  "description": "JumpServer Web UI",
+  "description": "Yetka Web UI (based on JumpServer Lina)",
   "author": "JumpServer Team <support@lxware.hk>",
   "license": "GPL-3.0-or-later",
   "scripts": {
