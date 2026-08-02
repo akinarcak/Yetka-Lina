@@ -553,16 +553,6 @@ export default {
         }
       ]
     },
-    {
-      path: '/settings/license',
-      name: 'License',
-      component: () => import('@/views/settings/License'),
-      meta: {
-        title: i18n.t('License'),
-        icon: 'license',
-        permissions: ['settings.change_license']
-      }
-    }
   ]
 }
 
