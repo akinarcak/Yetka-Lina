@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <router-view v-if="isRouterAlive" />
+    <MaintenanceStatus v-if="currentUserIsSuperAdmin" />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { Watermark } from 'watermark-js-plus'
+import MaintenanceStatus from '@/components/MaintenanceStatus'
 
 export default {
   name: 'App',
+  components: { MaintenanceStatus },
   data() {
     return {
       watermark: null
@@ -21,6 +24,7 @@ export default {
     }),
     ...mapGetters({
       currentUser: 'currentUser',
+      currentUserIsSuperAdmin: 'currentUserIsSuperAdmin',
       publicSettings: 'publicSettings'
     })
   },
