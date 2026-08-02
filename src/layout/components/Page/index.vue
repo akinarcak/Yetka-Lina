@@ -41,8 +41,8 @@
       </template>
     </PageHeading>
 
-    <PageContent :class="{ disabled: disabled }" class="page-content">
-      <div v-if="disabled" class="content-disabled-mask">
+    <PageContent class="page-content">
+      <div v-if="disabled" class="content-unavailable">
         <IBox shadow="always">
           <div class="disabled-content">
             <div class="lock-icon">
@@ -57,10 +57,10 @@
           </div>
         </IBox>
       </div>
-      <el-alert v-if="iHelpMessage" type="info">
+      <el-alert v-if="!disabled && iHelpMessage" type="info">
         <span v-sanitize="iHelpMessage" class="announcement-main" />
       </el-alert>
-      <slot />
+      <slot v-if="!disabled" />
     </PageContent>
     <UserConfirmDialog />
   </div>
@@ -222,18 +222,11 @@ export default {
   top: 30%;
 }
 
-.content-disabled-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(2px);
+.content-unavailable {
+  min-height: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 
   .disabled-content {
     display: flex;
