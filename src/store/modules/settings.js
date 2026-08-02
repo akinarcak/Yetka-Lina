@@ -12,7 +12,9 @@ const state = {
   sidebarLogo: sidebarLogo,
   tagsView: tagsView,
   publicSettings: {},
-  hasValidLicense: false,
+  // Yetka ships only GPL components. Pages that are present in this source
+  // tree must not be disabled by an absent upstream enterprise license.
+  hasValidLicense: true,
   authMethods: {},
   themeColors: JSON.parse(localStorage.getItem('themeColors')) || {},
   tableActionButtonType: 'default'
@@ -29,9 +31,7 @@ const mutations = {
     state.themeColors = settings?.INTERFACE?.theme_info?.colors || {}
     state.tableActionButtonType = settings?.INTERFACE.theme_info['table-action-button'] || 'default'
 
-    if (settings['XPACK_ENABLED']) {
-      state.hasValidLicense = settings['XPACK_LICENSE_IS_VALID']
-    }
+    state.hasValidLicense = true
   },
   SET_SECURITY_WATERMARK_ENABLED: (state, value) => {
     state.publicSettings['SECURITY_WATERMARK_ENABLED'] = value
