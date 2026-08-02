@@ -33,7 +33,6 @@ export default {
             name: 'AssetACLList',
             comment: this.$t('DataMaskingRuleHelpHelpText'),
             icon: 'assets',
-            edition: 'enterprise',
             tags: ['asset']
           },
           {
@@ -42,7 +41,6 @@ export default {
             name: 'ConnectMethodACLList',
             comment: this.$t('ConnectMethodACLHelpText'),
             icon: 'client',
-            edition: 'enterprise',
             tags: ['client', 'cli']
           },
           {
@@ -51,7 +49,6 @@ export default {
             name: 'UserLoginACLList',
             comment: this.$t('UserLoginACLHelpText'),
             icon: 'login',
-            edition: 'enterprise',
             tags: ['login']
           }
         ],

@@ -33,7 +33,6 @@ export default {
             name: 'AccountChangeSecretList',
             comment: this.$t('ChangeCredentialsHelpText'),
             icon: 'change-password',
-            edition: 'enterprise',
             tags: ['ansible']
           },
           {
@@ -42,7 +41,6 @@ export default {
             name: 'AccountDiscoverList',
             comment: this.$t('DiscoverAccountsHelpText'),
             icon: 'gather-account',
-            edition: 'enterprise',
             tags: ['ansible']
           },
           {
@@ -51,7 +49,6 @@ export default {
             name: 'AccountBackupList',
             comment: this.$t('BackupAccountsHelpText'),
             icon: 'backup-account',
-            edition: 'enterprise',
             tags: ['email', 'SFTP']
           }
         ],
