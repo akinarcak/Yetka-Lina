@@ -109,7 +109,7 @@ export default {
           {
             key: 'Github',
             formatter: () => {
-              return (<a href='https://github.com/jumpserver/jumpserver' target='_blank'> JumpServer </a>)
+              return (<a href='https://github.com/akinarcak/Yetka' target='_blank'> Yetka </a>)
             }
           }
         ]
@@ -159,7 +159,7 @@ export default {
       this.dialogLicenseImport = true
     },
     consultAction: function() {
-      const url = 'https://www.lxware.hk/pages/about'
+      const url = 'https://careoncloud.com'
       window.open(url, '_blank')
     },
     importLicense() {

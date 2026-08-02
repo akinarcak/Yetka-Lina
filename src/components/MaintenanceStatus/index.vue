@@ -66,7 +66,7 @@ export default {
         findings.push(`Yeni Yetka sürümü: ${this.update.latest_version} (kurulu: ${this.update.current_version})`)
       }
       if (this.status.upstream?.review_required) {
-        findings.push(`Yeni JumpServer upstream sürümü inceleme bekliyor: ${this.status.upstream.latest_version} (Yetka tabanı: ${this.status.upstream.base_version}). Otomatik uygulanmaz.`)
+        findings.push(`Yeni upstream sürümü inceleme bekliyor: ${this.status.upstream.latest_version} (Yetka tabanı: ${this.status.upstream.base_version}). Otomatik uygulanmaz.`)
       }
       if (this.status.vulnerabilities?.total) {
         findings.push(`${this.status.vulnerabilities.total} güvenlik kaydı, ${this.status.vulnerabilities.affected_packages} kurulu paketi etkiliyor.`)

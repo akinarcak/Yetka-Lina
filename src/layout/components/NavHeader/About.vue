@@ -74,9 +74,6 @@ export default {
         return this.visible
       }
     },
-    versionType() {
-      return this.hasXPack ? this.$t('EnterpriseEdition') : this.$tc('CommunityEdition') + ' GPLv3'
-    },
     items() {
       return [
         {
@@ -97,21 +94,8 @@ export default {
         }
       ]
     },
-    corporation() {
-      return this.publicSettings.XPACK_LICENSE_INFO.corporation
-    },
-    copyright() {
-      if (this.corporation.indexOf('FIT2CLOUD 飞致云') > -1) {
-        return this.corporation
-      } else {
-        return ''
-      }
-    },
     logoSrc() {
       return this.publicSettings['INTERFACE']['logo_logout']
-    },
-    hasXPack() {
-      return this.publicSettings.XPACK_LICENSE_IS_VALID
     }
   },
   methods: {
@@ -121,7 +105,7 @@ export default {
           window.open('/core/download/', '_blank')
           break
         case 'github':
-          window.open('https://github.com/jumpserver/jumpserver', '_blank')
+          window.open('https://github.com/akinarcak/Yetka', '_blank')
           break
       }
     }
