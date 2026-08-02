@@ -2,9 +2,6 @@
   <div v-if="!loading">
     <el-alert v-if="licenseMsg" type="error">
       {{ licenseMsg }} !
-      <router-link :to="{ name: 'License' }" style="padding-left: 5px">
-        {{ $t('View') }} <i class="fa fa-external-link" />
-      </router-link>
     </el-alert>
   </div>
 </template>
