@@ -44,7 +44,7 @@ export default {
             title: this.$t('Marketplace'),
             icon: 'el-icon-shopping-bag-1',
             callback: () => {
-              window.open('https://careoncloud.com/apps/yetka')
+              window.open('https://careoncloud.com')
             }
           }
         ],
