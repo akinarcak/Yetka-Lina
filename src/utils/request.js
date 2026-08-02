@@ -8,6 +8,7 @@ import { message } from '@/utils/vue/message'
 import store from '@/store'
 import axiosRetry from 'axios-retry'
 import router from '@/router'
+import { getTenantForOrganization } from '@/utils/yetkaTenant'
 
 // create an axios instance
 const service = axios.create({
@@ -26,6 +27,10 @@ function beforeRequestAddToken(config) {
   const orgId = queryOrgId || storeOrgId
   if (orgId) {
     config.headers['X-JMS-ORG'] = orgId
+    const tenantId = getTenantForOrganization(orgId)
+    if (tenantId) {
+      config.headers['X-YETKA-TENANT'] = tenantId
+    }
   }
 }
 
