@@ -6,7 +6,6 @@ import messages from './langs'
 import date from './date'
 import axios from 'axios'
 import { getLangCode } from './utils'
-import store from '@/store'
 
 Vue.use(VueI18n)
 const lang = getLangCode()
@@ -56,6 +55,10 @@ export async function fetchTranslationsFromAPI() {
   } catch (error) {
     console.log(error)
   } finally {
+    // Load the store only after i18n has finished initialising. Importing it
+    // eagerly creates a circular dependency through form rules that call
+    // i18n.t() at module load time, leaving the i18n export undefined.
+    const { default: store } = await import('@/store')
     await store.dispatch('app/setI18nLoaded', true)
   }
 }

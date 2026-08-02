@@ -1,24 +1,31 @@
-import i18n from '@/i18n/i18n'
 import request from '@/utils/request'
 
+// Resolve i18n lazily. This module is loaded while the i18n module itself is
+// initialising; an eager import leaves the partially constructed export
+// undefined and crashes the whole SPA before the first route renders.
+const translate = key => {
+  const mod = require('@/i18n/i18n')
+  return (mod.default || mod.a).t(key)
+}
+
 export const Required = {
-  required: true, message: i18n.t('FieldRequiredError'), trigger: 'blur'
+  required: true, message: 'This field is required.', trigger: 'blur'
 }
 
 export const RequiredChange = {
-  required: true, message: i18n.t('FieldRequiredError'), trigger: 'change'
+  required: true, message: 'This field is required.', trigger: 'change'
 }
 
 export const EmailCheck = {
   type: 'email',
-  message: i18n.t('InputEmailAddress'),
+  message: 'Please enter a valid email address.',
   trigger: ['blur', 'change']
 }
 
 export const LengthCheck = {
   validator: (rule, value, callback) => {
     if (value < 30) {
-      callback(new Error(`${i18n.t('MinNumber30')}`))
+      callback(new Error(`${translate('MinNumber30')}`))
     } else {
       callback()
     }
@@ -35,7 +42,7 @@ export const IpCheck = {
     if (urlRegExp.test(value)) {
       callback()
     } else {
-      callback(new Error(i18n.t('FormatError')))
+      callback(new Error(translate('FormatError')))
     }
   },
   trigger: ['blur', 'change']
@@ -45,7 +52,7 @@ export const specialEmojiCheck = {
   validator: (rule, value, callback) => {
     value = value?.trim()
     if (/[\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/.test(value)) {
-      callback(new Error(i18n.t('NotSpecialEmoji')))
+      callback(new Error(translate('NotSpecialEmoji')))
     } else {
       callback()
     }
@@ -58,7 +65,7 @@ export const matchAlphanumericUnderscore = {
   validator: (rule, value, callback) => {
     value = value?.trim()
     if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      callback(new Error(i18n.t('notAlphanumericUnderscore')))
+      callback(new Error(translate('notAlphanumericUnderscore')))
     } else {
       callback()
     }
@@ -71,7 +78,7 @@ export const MatchExcludeParenthesis = {
   validator: (rule, value, callback) => {
     value = value?.trim()
     if (!/^[^()]*$/.test(value)) {
-      callback(new Error(i18n.t('notParenthesis')))
+      callback(new Error(translate('notParenthesis')))
     } else {
       callback()
     }
@@ -87,7 +94,7 @@ export const JsonRequired = {
       typeof value === 'string' ? JSON.parse(value) : value
       callback()
     } catch (e) {
-      callback(new Error(i18n.t('InvalidJson')))
+      callback(new Error(translate('InvalidJson')))
     }
   }
 }
@@ -100,11 +107,11 @@ export const JsonRequiredUserNameMapped = {
       const v = typeof value === 'string' ? JSON.parse(value) : value
       const hasUserName = _.map(v, (value) => value)
       if (!hasUserName.includes('username')) {
-        callback(new Error(i18n.t('requiredHasUserNameMapped')))
+        callback(new Error(translate('requiredHasUserNameMapped')))
       }
       callback()
     } catch (e) {
-      callback(new Error(i18n.t('InvalidJson')))
+      callback(new Error(translate('InvalidJson')))
     }
   }
 }
@@ -173,7 +180,7 @@ export function UniqueCheck(options = {}) {
 
         if (duplicated) {
           const _label = label || fieldName || ''
-          const msg = `${_label}${i18n.t('Existing')}`
+          const msg = `${_label}${translate('Existing')}`
           callback(new Error(msg))
         } else {
           callback()
