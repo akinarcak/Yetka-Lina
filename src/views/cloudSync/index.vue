@@ -141,10 +141,7 @@ export default {
       this.executions = rows(await request.get('/api/v1/cloud-sync/executions/'))
     },
     async loadQuarantine() {
-      // The current backend exposes accounts and executions. Quarantine
-      // records are not yet a public endpoint, so keep this tab empty rather
-      // than issuing a request that produces a distracting 404 toast.
-      this.quarantine = []
+      this.quarantine = rows(await request.get('/api/v1/cloud-sync/quarantine/'))
     },
     async sync(account) {
       this.syncing = account.id
