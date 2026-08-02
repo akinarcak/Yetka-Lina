@@ -13,6 +13,10 @@
       <div class="head">
         <img :src="logoSrc" alt="logo" class="sidebar-logo-text" height="70">
       </div>
+      <div class="careoncloud-brand">
+        <img src="/careoncloud-logo.png" alt="CareonCloud" class="careoncloud-logo">
+        <span>Yetka, CareonCloud ürünüdür</span>
+      </div>
       <tr v-for="item of items" v-show="item.has || item.has === undefined" :key="item.label" class="text">
         <td class="title">{{ item.label }}: </td>
         <td class="value">{{ item.value }}</td>
@@ -77,21 +81,19 @@ export default {
       return [
         {
           label: this.$t('Product'),
-          value: 'JumpServer ' + this.versionType
+          value: 'Yetka'
         },
         {
           label: this.$t('Version'),
           value: 'version-dev'
         },
         {
-          label: this.$t('PermissionCompany'),
-          value: this.corporation,
-          has: this.hasXPack
+          label: 'Provider',
+          value: 'CareonCloud'
         },
         {
-          label: 'Copyright',
-          value: this.copyright,
-          has: !this.hasXPack
+          label: 'License',
+          value: 'GPL-3.0-or-later'
         }
       ]
     },
@@ -141,6 +143,21 @@ export default {
 
 .head {
   float: right;
+}
+
+.careoncloud-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.careoncloud-logo {
+  width: 150px;
+  height: auto;
+  border-radius: 6px;
 }
 
 .box {
