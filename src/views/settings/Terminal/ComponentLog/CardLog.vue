@@ -2,7 +2,8 @@
   <el-card class="log-card">
     <div slot="header">
       <span> {{ title }}</span>
-      <el-button style="float: right" type="text" @click="tailLog"> {{ $tc('TailLog') }} </el-button>
+      <el-tag v-if="unavailable" type="info" size="mini" style="float: right">Unavailable</el-tag>
+      <el-button v-else style="float: right" type="text" @click="tailLog"> {{ $tc('TailLog') }} </el-button>
     </div>
     <table v-if="logs.length>0" class="log-table">
       <tr v-for="(o,i) in logs" :key="i">
@@ -37,6 +38,10 @@ export default {
     search: {
       type: String,
       default: ''
+    },
+    unavailable: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

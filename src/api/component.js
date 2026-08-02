@@ -7,3 +7,10 @@ export function getLokiLog(data) {
     params: data
   })
 }
+
+export function getSupportedComponents() {
+  return request({
+    url: '/api/v1/components/',
+    method: 'get'
+  })
+}

@@ -31,6 +31,7 @@
         :key="index"
         :components="card.components"
         :logs="card.logs"
+        :unavailable="card.unavailable"
         :search="isearch"
         :title="card.title"
         class="card-log"
@@ -43,7 +44,7 @@
 import DatetimeRangePicker from '@/components/Form/FormFields/DatetimeRangePicker.vue'
 import { getDaysAgo, getDaysFuture } from '@/utils/common/time'
 import { debounce } from 'lodash'
-import { getLokiLog } from '@/api/component'
+import { getLokiLog, getSupportedComponents } from '@/api/component'
 import ActionsGroup from '@/components/Common/ActionsGroup'
 import store from '@/store'
 import CardLog from './CardLog.vue'
@@ -114,7 +115,8 @@ export default {
         dateEnd: getDaysFuture(1).toISOString()
       },
       lokiData: [],
-      cards: all_components
+      cards: all_components,
+      componentManifest: null
     }
   },
   computed: {
@@ -137,7 +139,11 @@ export default {
     },
     cardLogs() {
       const cards = this.cards.map(card => {
-        return { title: card.title, components: card.components, logs: [] }
+        const component = card.components[0]
+        const manifest = this.componentManifest || {}
+        const unavailable = this.componentManifest !== null &&
+          (!manifest[component] || manifest[component].status !== 'supported')
+        return { title: card.title, components: card.components, logs: [], unavailable }
       })
       this.lokiData.forEach(item => {
         const componentName = item.stream['component']
@@ -146,7 +152,7 @@ export default {
         })
 
         cards.forEach(card => {
-          if (card.components.includes(componentName)) {
+          if (!card.unavailable && card.components.includes(componentName)) {
             card.logs = card.logs.concat(log)
           }
         })
@@ -159,7 +165,15 @@ export default {
     }
   },
   mounted() {
-    this.refresh_component_logs()
+    getSupportedComponents()
+      .then(response => {
+        this.componentManifest = response.components || {}
+      })
+      .catch(() => {
+        // Unknown component support must fail closed in the UI.
+        this.componentManifest = {}
+      })
+      .finally(() => this.refresh_component_logs())
   },
   methods: {
     handleDateChange: debounce(function(value) {
