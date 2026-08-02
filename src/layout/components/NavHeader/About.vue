@@ -14,7 +14,7 @@
         <img :src="logoSrc" alt="logo" class="sidebar-logo-text" height="70">
       </div>
       <div class="careoncloud-brand">
-        <img src="/careoncloud-logo.png" alt="CareonCloud" class="careoncloud-logo">
+        <img src="/careoncloud-logo.png?v=2" alt="CareonCloud" class="careoncloud-logo">
         <span>Yetka, CareonCloud ürünüdür</span>
       </div>
       <tr v-for="item of items" v-show="item.has || item.has === undefined" :key="item.label" class="text">
@@ -140,7 +140,12 @@ export default {
 
 .careoncloud-logo {
   width: 150px;
+  display: block;
+  padding: 0;
+  border: 0;
   height: auto;
+  background: #fff;
+  box-shadow: none;
   border-radius: 6px;
 }
 
