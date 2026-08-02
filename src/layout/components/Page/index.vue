@@ -49,11 +49,8 @@
               <i class="el-icon-unlock" />
             </div>
             <div class="disabled-text">
-              {{ $t('UpgradeEnterpriseEditionHelpText') }}
+              This feature is unavailable in the current Yetka build.
             </div>
-            <el-button class="upgrade-btn" type="primary" @click="handleUpgrade">
-              {{ $t('UpgradeEnterpriseEdition') }}
-            </el-button>
           </div>
         </IBox>
       </div>
@@ -151,10 +148,6 @@ export default {
     endLongPress() {
       clearTimeout(this.longPressTimer)
     },
-    handleUpgrade() {
-      const url = 'https://www.lxware.hk/pages/about'
-      window.open(url, '_blank')
-    }
   }
 }
 </script>

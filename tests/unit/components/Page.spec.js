@@ -9,6 +9,8 @@ describe('Page unavailable rendering', () => {
     )
     expect(source).not.toContain('content-disabled-mask')
     expect(source).not.toContain('backdrop-filter: blur')
+    expect(source).not.toContain('UpgradeEnterpriseEdition')
+    expect(source).not.toContain('lxware.hk')
     expect(source).toContain('<slot v-if="!disabled" />')
   })
 })
