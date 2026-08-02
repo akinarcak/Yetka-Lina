@@ -1,6 +1,6 @@
 # Yetka Lina
 
-Yetka'nın web yönetim arayüzüdür. JumpServer Lina `v4.10.16` tabanlıdır;
+Yetka'nın web yönetim arayüzüdür. Upstream Lina `v4.10.16` tabanlıdır;
 orijinal GPLv3 lisansı ve telif bildirimleri korunur.
 
 Lina 是 JumpServer 的前端 UI 项目, 主要使用 [Vue](https://cn.vuejs.org/), [Element UI](https://element.eleme.cn/) 完成, 
