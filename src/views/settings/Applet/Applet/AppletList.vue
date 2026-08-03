@@ -39,15 +39,7 @@ export default {
           getUrlQuery: false,
           exclude: ['version']
         },
-        extraActions: [
-          {
-            title: this.$t('Marketplace'),
-            icon: 'el-icon-shopping-bag-1',
-            callback: () => {
-              window.open('https://apps.fit2cloud.com/jumpserver')
-            }
-          }
-        ],
+        extraActions: [],
         detailRoute: 'AppletDetail',
         hasExport: false,
         hasImport: false,
