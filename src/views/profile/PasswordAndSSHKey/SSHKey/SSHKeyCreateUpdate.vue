@@ -63,7 +63,7 @@ export default {
           this.$axios.get(`/core/auth/profile/pubkey/generate/?${queryParams}`)
             .then((res) => {
               vm.createSuccessHandle()
-              downloadText(res, `${name}.jumpserver.pem`)
+              downloadText(res, `${name}.yetka.pem`)
             })
         } else {
           const method = isCreated ? 'post' : 'patch'

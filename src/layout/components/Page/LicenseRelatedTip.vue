@@ -49,9 +49,6 @@ export default {
       if (!this.publicSettings['XPACK_ENABLED'] || !this.$hasPerm('settings.change_license')) {
         return false
       }
-      if (this.licenseData.corporation === 'FIT2CLOUD') {
-        return this.$t('LicenseForTest')
-      }
       if (this.licenseData['current_asset_count'] > this.licenseData.asset_count) {
         return this.$t('LicenseReachedAssetAmountLimit')
       }
