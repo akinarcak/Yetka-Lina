@@ -2,6 +2,7 @@ import zh from './zh.json'
 import zh_hant from './zh_hant.json'
 import en from './en.json'
 import ja from './ja.json'
+import tr from './tr.json'
 
 // Map app locales to Element-UI locale file names
 const elementLocaleNameByAppLocale = {
@@ -9,6 +10,7 @@ const elementLocaleNameByAppLocale = {
   zh_hant: 'zh-TW',
   en: 'en',
   ja: 'ja',
+  tr: 'en',
   pt_br: 'pt-br',
   es: 'es',
   ru: 'ru-RU',
@@ -30,7 +32,8 @@ const appLocaleMessages = {
   zh,
   zh_hant,
   en,
-  ja
+  ja,
+  tr: { ...en, ...tr }
 }
 
 const messages = Object.keys(elementLocaleNameByAppLocale).reduce((acc, appLocale) => {
