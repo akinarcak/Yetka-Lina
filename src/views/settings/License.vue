@@ -109,7 +109,7 @@ export default {
           {
             key: 'Github',
             formatter: () => {
-              return (<a href='https://github.com/jumpserver/jumpserver' target='_blank'> JumpServer </a>)
+              return (<a href='https://github.com/akinarcak/Yetka' target='_blank'> Yetka </a>)
             }
           }
         ]

@@ -84,14 +84,8 @@ export default {
           value: 'version-dev'
         },
         {
-          label: this.$t('PermissionCompany'),
-          value: this.corporation,
-          has: this.hasXPack
-        },
-        {
           label: 'Copyright',
-          value: this.copyright,
-          has: !this.hasXPack
+          value: 'CareonCloud © 2026'
         }
       ]
     },
