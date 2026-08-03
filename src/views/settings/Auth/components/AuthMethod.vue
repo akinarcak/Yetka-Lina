@@ -56,7 +56,7 @@ export default {
     },
     type: {
       type: String,
-      default: 'enterprise'
+      default: ''
     }
   },
   data() {

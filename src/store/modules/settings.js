@@ -12,8 +12,7 @@ const state = {
   sidebarLogo: sidebarLogo,
   tagsView: tagsView,
   publicSettings: {},
-  // Yetka ships only GPL components. Pages that are present in this source
-  // tree must not be disabled by an absent upstream enterprise license.
+  // Yetka ships the components present in this source tree.
   hasValidLicense: true,
   authMethods: {},
   themeColors: JSON.parse(localStorage.getItem('themeColors')) || {},
