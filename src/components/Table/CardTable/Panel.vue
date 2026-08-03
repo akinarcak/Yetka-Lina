@@ -1,8 +1,5 @@
 <template>
   <div @click="handleClick">
-    <span v-if="d.edition === 'enterprise'" class="enterprise">
-      {{ $t('Enterprise') }}
-    </span>
     <el-row class="panel">
       <el-col v-if="d.icon" :span="d.icon ? 8 : 0" class="image">
         <img

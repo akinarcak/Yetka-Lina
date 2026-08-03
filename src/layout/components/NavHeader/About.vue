@@ -71,13 +71,13 @@ export default {
       }
     },
     versionType() {
-      return this.hasXPack ? this.$t('EnterpriseEdition') : this.$tc('CommunityEdition') + ' GPLv3'
+      return 'GPL-3.0-or-later'
     },
     items() {
       return [
         {
           label: this.$t('Product'),
-          value: 'JumpServer ' + this.versionType
+          value: 'Yetka ' + this.versionType
         },
         {
           label: this.$t('Version'),
@@ -119,7 +119,7 @@ export default {
           window.open('/core/download/', '_blank')
           break
         case 'github':
-          window.open('https://github.com/jumpserver/jumpserver', '_blank')
+          window.open('https://github.com/akinarcak/Yetka', '_blank')
           break
       }
     }

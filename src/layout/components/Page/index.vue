@@ -48,12 +48,7 @@
             <div class="lock-icon">
               <i class="el-icon-unlock" />
             </div>
-            <div class="disabled-text">
-              {{ $t('UpgradeEnterpriseEditionHelpText') }}
-            </div>
-            <el-button class="upgrade-btn" type="primary" @click="handleUpgrade">
-              {{ $t('UpgradeEnterpriseEdition') }}
-            </el-button>
+          <div class="disabled-text">This feature is not available in this deployment.</div>
           </div>
         </IBox>
       </div>
