@@ -11,12 +11,13 @@ export function getLangCode(withInternalCode = false) {
     'zh-sg': 'zh',
     'zh-tw': 'zh_hant',
     'zh-hk': 'zh_hant',
-    'pt-pt': 'pt_br'
+    'pt-pt': 'pt_br',
+    'tr-tr': 'tr'
   }
   lang = localeAliases[lang] || lang
-  if (!['zh', 'zh_hant', 'en', 'ja', 'pt_br', 'es', 'ru', 'ko', 'vi'].includes(lang)) {
+  if (!['zh', 'zh_hant', 'en', 'ja', 'tr', 'pt_br', 'es', 'ru', 'ko', 'vi'].includes(lang)) {
     const base = lang.split('-')[0]
-    lang = ['zh', 'ja', 'es', 'ru', 'ko', 'vi'].includes(base) ? base : 'en'
+    lang = ['zh', 'ja', 'tr', 'es', 'ru', 'ko', 'vi'].includes(base) ? base : 'en'
   }
   if (withInternalCode) {
     const { default: store } = require('@/store')
