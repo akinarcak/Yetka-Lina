@@ -46,7 +46,7 @@
             </el-col>
           </el-row>
           <div class="msg-item-txt">
-            <MarkDown :value="msg.content.message" />
+            <span v-sanitize="previewMessage(msg.content.message)" />
           </div>
         </div>
       </div>
@@ -135,6 +135,13 @@ export default {
       } else {
         return this.$moment(d).fromNow()
       }
+    },
+    previewMessage(message) {
+      return String(message || '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/^\s*#{1,6}\s*/gm, '')
+        .replace(/\s+/g, ' ')
+        .trim()
     },
     oneClickRead(msgs) {
       this.$confirm(this.$tc('OneClickReadMsg'), this.$tc('Info'), {
@@ -303,20 +310,6 @@ export default {
   display: -webkit-box;
   font-size: 12px;
     display: block;
-
-    ::v-deep .markdown-body {
-      padding: 0;
-
-      * {
-        margin: 0;
-        font-size: 12px;
-        line-height: 25px;
-      }
-
-      ul, ol {
-        padding-left: 16px;
-      }
-    }
 
     ::v-deep .ticket-container {
     .title {
