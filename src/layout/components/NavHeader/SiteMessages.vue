@@ -46,7 +46,7 @@
             </el-col>
           </el-row>
           <div class="msg-item-txt">
-            <span v-sanitize="msg.content.message" />
+            <MarkDown :value="msg.content.message" />
           </div>
         </div>
       </div>
@@ -257,7 +257,7 @@ export default {
   }
 
   &.msg-unread {
-    .msg-item-txt {
+  .msg-item-txt {
       font-weight: bolder;
     }
   }
@@ -302,9 +302,23 @@ export default {
   max-height: 25px;
   display: -webkit-box;
   font-size: 12px;
-  display: block;
+    display: block;
 
-  ::v-deep .ticket-container {
+    ::v-deep .markdown-body {
+      padding: 0;
+
+      * {
+        margin: 0;
+        font-size: 12px;
+        line-height: 25px;
+      }
+
+      ul, ol {
+        padding-left: 16px;
+      }
+    }
+
+    ::v-deep .ticket-container {
     .title {
       font-size: 12px;
     }
