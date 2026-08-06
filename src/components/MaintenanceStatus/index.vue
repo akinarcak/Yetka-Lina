@@ -23,8 +23,24 @@
         <code>{{ update.command }}</code>
         <el-button size="mini" @click="copyCommand">Komutu kopyala</el-button>
       </div>
+
+      <div v-if="planRunning" class="maintenance-result running">
+        Plan çalışıyor; sunucu hiçbir değişiklik yapmadan hedef sürümü doğruluyor.
+      </div>
+      <div v-else-if="lastResult" class="maintenance-result" :class="{ failed: !lastResult.succeeded }">
+        <div class="maintenance-result__head">
+          <strong>{{ lastResultTitle }}</strong>
+          <small>{{ lastResult.finished_at }}</small>
+        </div>
+        <pre>{{ lastResult.output }}</pre>
+        <small v-if="lastResult.truncated">Çıktı uzun olduğu için başı kırpıldı.</small>
+      </div>
+
       <span slot="footer">
         <el-button v-if="status.guide_url" @click="openGuide">Bakım rehberi</el-button>
+        <el-button v-if="canPlan" :loading="planRunning" @click="planUpdate">
+          Önce planla
+        </el-button>
         <el-button v-if="canApply" :loading="applying" type="success" @click="applyUpdate">
           Güncellemeleri al
         </el-button>
@@ -40,6 +56,11 @@ import request from '@/utils/request'
 const API_URL = '/api/v1/maintenance/status/'
 const DISMISS_KEY = 'yetka-maintenance-dismissed-v3'
 const DISMISS_MS = 24 * 60 * 60 * 1000
+// The planner downloads and verifies the release, then dry-runs the target
+// installer, so it takes minutes rather than seconds. Poll until the host
+// clears the queue and give up well after a healthy run would have finished.
+const POLL_MS = 5000
+const POLL_LIMIT = 60
 
 export default {
   name: 'MaintenanceStatus',
@@ -47,7 +68,9 @@ export default {
     return {
       status: {},
       dialogVisible: false,
-      applying: false
+      applying: false,
+      planning: false,
+      pollTimer: null
     }
   },
   computed: {
@@ -59,6 +82,26 @@ export default {
     },
     canApply() {
       return Boolean(this.updateAvailable && this.update.can_apply)
+    },
+    canPlan() {
+      return Boolean(this.updateAvailable && this.update.can_plan)
+    },
+    lastResult() {
+      return this.status.last_result || null
+    },
+    planRunning() {
+      // Either this tab queued a plan, or another operator did and the host
+      // is still working through it.
+      return Boolean(this.planning || this.status.pending_action === 'plan')
+    },
+    lastResultTitle() {
+      const result = this.lastResult
+      if (!result) {
+        return ''
+      }
+      const action = result.action === 'plan' ? 'Plan' : 'Güncelleme'
+      const outcome = result.succeeded ? 'başarılı' : `başarısız (çıkış kodu ${result.exit_code})`
+      return `${action} ${outcome} — ${result.version}`
     },
     findings() {
       const findings = []
@@ -80,6 +123,9 @@ export default {
   mounted() {
     this.loadStatus()
   },
+  beforeDestroy() {
+    this.stopPolling()
+  },
   methods: {
     isDismissed() {
       try {
@@ -92,9 +138,11 @@ export default {
     async loadStatus() {
       try {
         this.status = await request.get(API_URL, { disableFlashErrorMsg: true })
-        this.dialogVisible = Boolean(
-          this.status.attention_required && this.status.fingerprint && !this.isDismissed()
-        )
+        if (!this.dialogVisible) {
+          this.dialogVisible = Boolean(
+            this.status.attention_required && this.status.fingerprint && !this.isDismissed()
+          )
+        }
       } catch (error) {
         // Anonymous and non-superuser sessions must continue without a maintenance prompt.
       }
@@ -119,6 +167,40 @@ export default {
         this.$message.success('Güncelleme sıraya alındı.')
       } finally {
         this.applying = false
+      }
+    },
+    async planUpdate() {
+      this.planning = true
+      try {
+        await request.post(API_URL, {
+          version: this.update.latest_version,
+          action: 'plan'
+        })
+        this.$message.success('Plan sıraya alındı; sonucu burada göreceksiniz.')
+        this.pollUntilFinished()
+      } catch (error) {
+        this.planning = false
+      }
+    },
+    pollUntilFinished(attempt = 0) {
+      this.stopPolling()
+      if (attempt >= POLL_LIMIT) {
+        this.planning = false
+        return
+      }
+      this.pollTimer = setTimeout(async() => {
+        await this.loadStatus()
+        if (this.status.pending_action) {
+          this.pollUntilFinished(attempt + 1)
+        } else {
+          this.planning = false
+        }
+      }, POLL_MS)
+    },
+    stopPolling() {
+      if (this.pollTimer) {
+        clearTimeout(this.pollTimer)
+        this.pollTimer = null
       }
     },
     async copyCommand() {
@@ -175,6 +257,48 @@ export default {
     border-radius: 6px;
     background: #172033;
     color: #f8fafc;
+  }
+}
+
+.maintenance-result {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  background: #f0fdf4;
+
+  &.failed {
+    border-color: #fecaca;
+    background: #fef2f2;
+  }
+
+  &.running {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  small {
+    color: #64748b;
+  }
+
+  pre {
+    max-height: 260px;
+    margin: 0;
+    padding: 9px;
+    overflow: auto;
+    border-radius: 6px;
+    background: #172033;
+    color: #f8fafc;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 }
 </style>
